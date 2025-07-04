@@ -28,7 +28,7 @@ module.exports = {
             uid: userResponse.uid,
             username: user.username,
             email: user.email,
-            passwword: CryptoJs.AES.encrypt(
+            password: CryptoJs.AES.encrypt(
               user.password,
               process.env.SECRET
             ).toString(),
@@ -78,7 +78,7 @@ module.exports = {
       const { password, isAdmin, ...others } = user._doc;
       res.status(200).json({ ...others, userToken });
     } catch (error) {
-      res.status(500).json({ error: "An error occurd while logging in" });
+      res.status(500).json({ error: error.message });
     }
   },
 };

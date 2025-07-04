@@ -4,6 +4,7 @@ const port = 3000;
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const jobRouter = require("./routes/job");
+const authRouter = require("./routes/auth");
 const bodyParser = require("body-parser");
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/jobs", jobRouter);
+app.use("/api/", authRouter);
 
 // app.get('/', (req, res)=> res.send('Hello World!'));
 
