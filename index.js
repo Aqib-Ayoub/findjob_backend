@@ -5,8 +5,13 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const jobRouter = require("./routes/job");
 const bodyParser = require("body-parser");
-
 dotenv.config();
+
+const admin = require("firebase-admin");
+const serviceAccount = require("./servicesAccountKey.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 mongoose
   .connect(process.env.MONGODB_URI)
