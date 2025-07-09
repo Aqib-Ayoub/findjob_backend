@@ -72,12 +72,13 @@ module.exports = {
           isAgent: user.isAgent,
           uid: user.uid,
         },
-        process.env.JWT_SEC,
+        process.env.JWT_SECRET,
         { expiresIn: "20d" }
       );
       const { password, isAdmin, ...others } = user._doc;
       res.status(200).json({ ...others, userToken });
     } catch (error) {
+      console.error("Login Error", error.message);
       res.status(500).json({ error: error.message });
     }
   },
