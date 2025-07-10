@@ -9,5 +9,4 @@ const BookmarkSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
 module.exports = mongoose.model("Bookmark", BookmarkSchema);
