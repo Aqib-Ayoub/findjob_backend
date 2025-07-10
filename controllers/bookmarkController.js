@@ -3,7 +3,7 @@ const Job = require("../models/Job");
 
 module.exports = {
   createBookmark: async (req, res) => {
-    const jobId = req.body.jobId;
+    const jobId = req.body.job;
     const userId = req.user.id;
 
     try {
@@ -11,7 +11,7 @@ module.exports = {
       if (!job) {
         res.status(400).json({ message: "Job not found" });
       }
-      const newBookmark = new Bookmark({ job: jobId, user: userId });
+      const newBookmark = new Bookmark({ job: jobId, userId: userId });
       const saveBookmark = await newBookmark.save();
       res.status(200).json({ status: true, bookmarkId: saveBookmark._id });
     } catch (error) {
@@ -19,7 +19,7 @@ module.exports = {
     }
   },
   deleteBookmark: async (req, res) => {
-    const bookmarkId = req.params.bookmarkId;
+    const bookmarkId = req.params.id;
 
     try {
       await Bookmark.findByIdAndDelete(bookmarkId);
@@ -44,8 +44,8 @@ module.exports = {
       res.status(500).json({ message: error.message });
     }
   },
-  gatBookmark: async (req, res) => {
-    const jobId = req.params.jobId;
+  getBookmark: async (req, res) => {
+    const jobId = req.params.id;
     const userId = req.user.id;
     try {
       const bookmark = await Bookmark.findOne({ userId: userId, job: jobId });
