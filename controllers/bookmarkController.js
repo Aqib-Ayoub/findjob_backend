@@ -5,11 +5,10 @@ module.exports = {
   createBookmark: async (req, res) => {
     const jobId = req.body.job;
     const userId = req.user.id;
-
     try {
       const job = await Job.findById(jobId);
       if (!job) {
-        res.status(400).json({ message: "Job not found" });
+        return res.status(400).json({ message: "Job not found" });
       }
       const newBookmark = new Bookmark({ job: jobId, userId: userId });
       const saveBookmark = await newBookmark.save();

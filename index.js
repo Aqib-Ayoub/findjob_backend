@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/jobs", jobRouter);
-app.use("/api/", authRouter);
+app.use("/api", authRouter);
 app.use("/api/bookmarks", bookmarkRouter);
 
 // app.get('/', (req, res)=> res.send('Hello World!'));
