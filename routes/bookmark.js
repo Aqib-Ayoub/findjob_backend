@@ -17,7 +17,7 @@ router.delete("/:id", verifyAndAuth, bookmarkController.deleteBookmark);
 router.get("/", verifyAndAuth, bookmarkController.getAllBookmark);
 
 //Get Bookmark Route
-// router.get("/bookmark/:id", bookmarkController.getBookmark);
-router.get("/:id", bookmarkController.getBookmark);
+router.get("/bookmark/:id", verifyAndAuth, bookmarkController.getBookmark);
+// router.get("/:id", bookmarkController.getBookmark);
 
 module.exports = router;
