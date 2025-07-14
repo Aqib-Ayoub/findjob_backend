@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const skillSchema = new mongoose.Schema({
+const SkillSchema = new mongoose.Schema({
   userId: { type: String, require: true },
   skill: { type: String, require: true },
 });

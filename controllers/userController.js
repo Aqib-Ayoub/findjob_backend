@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Skills = require("../models/Skills");
+const Agent = require("../models/Agent");
 
 module.exports = {
   updateUser: async (req, res) => {
@@ -66,6 +67,79 @@ module.exports = {
       res.status(200).json({ status: true });
     } catch (error) {
       res.status(500).json({ error: error });
+    }
+  },
+
+  addAgent: async (req, res) => {
+    const newAgent = new Agent({
+      userId: req.user.id,
+      uid: req.body.uid,
+      working_hrs: req.body.working_hrs,
+      hq_address: req.body.hq_address,
+      company: req.body.company,
+    });
+    try {
+      await newAgent.save();
+      await User.findByIdAndUpdate(req.user.id, { $set: { agent: true } });
+      res.status(200).json({ status: true });
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  },
+
+  updateAgent: async (req, res) => {
+    const id = req.params.id;
+    try {
+      const updatedAgent = await Agent.findByIdAndUpdate(
+        id,
+        {
+          userId: req.user.id,
+          working_hrs: req.body.working_hrs,
+          hq_address: req.body.hq_address,
+          company: req.body.company,
+        },
+        { new: true }
+      );
+      if (!updatedAgent) {
+        return res
+          .status(404)
+          .json({ status: false, message: "Agent not found" });
+      }
+      res.status(200).json({ status: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getAgent: async (req, res) => {
+    try {
+      const agentData = await Agent.find(
+        { uid: req.params.uid },
+        { createdAt: 0, updatedAt: 0, __v: 0 }
+      );
+      const agent = agentData[0];
+      res.status(200).json(agent);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  getAgents: async (req, res) => {
+    try {
+      const agents = await User.aggregate([
+        { $match: { isAgent: true } },
+        { $sample: { size: 7 } },
+        {
+          $project: {
+            _id: 0,
+            username: 1,
+            profile: 1,
+            uid: 1,
+          },
+        },
+      ]);
+      res.status(200).json(agents);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   },
 };

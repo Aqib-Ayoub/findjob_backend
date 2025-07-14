@@ -23,4 +23,16 @@ router.get("/skills", verifyAndAuth, userController.getSkills);
 //Delete skills
 router.delete("/skills/:id", verifyAndAuth, userController.deleteSkill);
 
+//Add agent
+router.post("/agents", verifyAndAuth, userController.addAgent);
+
+//Update agent
+router.put("/agents/:id", verifyAndAuth, userController.updateAgent);
+
+//Get single agent
+router.get("/agents/:id", verifyAndAuth, userController.getAgent);
+
+//Get Multiple agents
+router.get("/agents", verifyAndAuth, userController.getAgents);
+
 module.exports = router;
