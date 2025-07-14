@@ -8,9 +8,19 @@ const {
 const userController = require("../controllers/userController");
 
 //Get user
-router.get("/", verifyToken, userController.getUser);
+router.get("/", verifyAndAuth, userController.getUser);
 //Delete user
-router.delete("/:id", verifyToken, userController.deleteUser);
+router.delete("/:id", verifyAndAuth, userController.deleteUser);
 //Update user
-router.put("/", verifyToken, userController.updateUser);
+router.put("/", verifyAndAuth, userController.updateUser);
+
+//Add skills
+router.post("/skills", verifyAndAuth, userController.addSkills);
+
+//Get skills
+router.get("/skills", verifyAndAuth, userController.getSkills);
+
+//Delete skills
+router.delete("/skills/:id", verifyAndAuth, userController.deleteSkill);
+
 module.exports = router;
